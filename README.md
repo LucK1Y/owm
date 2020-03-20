@@ -1,7 +1,7 @@
 # owm
-Open Weather Map - Python Wrapper
-+for bots and stuff
-+creates messages 
+Open Weather Map - Python Wrapper  
++ for bots and stuff  
++ creates messages 
 
 ##  requirements 
 + get api key from https://openweathermap.org/api
