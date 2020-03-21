@@ -33,9 +33,9 @@ class OWM_Wrapper(object):
         except Exception as ex:
             print("Got Error message: ")
             print(ex)
-            print("got ",r.json())
+            print("got ", r.json())
             print(r)
-            raise ex
+            return []
 
         return self.forecast
 
@@ -57,9 +57,8 @@ class OWM_Wrapper(object):
         except Exception as ex:
             print("Got Error message: ")
             print(ex)
-            print("Got ",r)
-            raise ex
-
+            print("Got ", r)
+            return []
 
         return self.current
 
@@ -88,11 +87,11 @@ class OWM_Wrapper(object):
                 date_Element, '%Y-%m-%d %H:%M:%S')
 
             if date_Time.day == datetime.datetime.today().day:
-                    if 'rain' in element:
-                        rain = element['rain']['3h']
-                    else:
-                        rain = 0
-                    output[date_Time.hour] = str(rain)
+                if 'rain' in element:
+                    rain = element['rain']['3h']
+                else:
+                    rain = 0
+                output[date_Time.hour] = str(rain)
 
         return output
 
@@ -112,7 +111,6 @@ class OWM_Wrapper(object):
                 date_Element, '%Y-%m-%d %H:%M:%S')
 
             if date_Time.day == datetime.datetime.today().day:
-
                 temp = format(float(element['main']['temp_kf']), ".2f")
                 output[date_Time.hour] = str(temp)
 
@@ -128,7 +126,7 @@ class OWM_Wrapper(object):
         for key, value in data.items():
             msg += "\t{} Uhr->Temp: {} °C\n".format(key, value)
 
-        return msg+"\n"
+        return msg + "\n"
 
     def weatherCurrent_MessagePart(self):
         """
@@ -138,8 +136,8 @@ class OWM_Wrapper(object):
             self.requestForData(self.getCurrentWeather)
 
         description = self.current["weather"][0]["description"]
-        min_t = format(float(self.current["main"]["temp_min"])-273.15, ".2f")
-        max_t = format(float(self.current["main"]["temp_max"])-273.15, ".2f")
+        min_t = format(float(self.current["main"]["temp_min"]) - 273.15, ".2f")
+        max_t = format(float(self.current["main"]["temp_max"]) - 273.15, ".2f")
         clouds = self.current["clouds"]["all"]
 
         out = f"""The current weather: 
@@ -162,10 +160,9 @@ class OWM_Wrapper(object):
         for key, value in data.items():
             msg += "\t{} Uhr->Rain: {} mm\n".format(key, value)
 
-        return msg+"\n"
+        return msg + "\n"
 
-
-    def createMessage(self,*parts) -> str:
+    def createMessage(self, *parts) -> str:
         """
         creates complete message with parts
 
@@ -178,5 +175,3 @@ class OWM_Wrapper(object):
 
         msg += "\n\nGreetings Your Python"
         return msg
-
-
